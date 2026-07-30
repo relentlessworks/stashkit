@@ -1,0 +1,15 @@
+# Binaries
+stashkit
+stashkit_*
+*.exe
+
+# Data directory
+data/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/

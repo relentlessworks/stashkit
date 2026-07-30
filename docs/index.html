@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>stashkit — agentic-first key-value store</title>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --border: #30363d;
+  --text: #e6edf3;
+  --muted: #8b949e;
+  --accent: #58a6ff;
+  --green: #3fb950;
+  --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', Consolas, monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  line-height: 1.6;
+}
+.container { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+.hero { text-align: center; padding: 3rem 0 2rem; }
+.hero h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 0.5rem; }
+.hero .tagline { font-size: 1.2rem; color: var(--muted); margin-bottom: 1.5rem; }
+.badges { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.badge {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+.badge.go { color: var(--accent); }
+.badge.license { color: var(--green); }
+.cta { display: flex; gap: 1rem; justify-content: center; }
+.cta a {
+  display: inline-block;
+  padding: 0.6rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: opacity 0.2s;
+}
+.cta a:hover { opacity: 0.85; }
+.cta .primary { background: var(--accent); color: var(--bg); }
+.cta .secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+section { padding: 2rem 0; }
+section h2 { font-size: 1.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+.principles { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
+.principle {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+}
+.principle h3 { font-size: 1rem; color: var(--accent); margin-bottom: 0.5rem; }
+.principle p { font-size: 0.9rem; color: var(--muted); }
+code, pre {
+  font-family: var(--mono);
+  font-size: 0.9rem;
+}
+pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+code { color: var(--accent); }
+pre code { color: var(--text); }
+table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; }
+th, td { padding: 0.5rem; border-bottom: 1px solid var(--border); text-align: left; }
+th { color: var(--muted); font-size: 0.85rem; }
+td { font-size: 0.9rem; }
+td code { font-size: 0.85rem; }
+.footer { text-align: center; padding: 2rem 0; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); margin-top: 2rem; }
+@media (max-width: 600px) {
+  .hero h1 { font-size: 1.8rem; }
+  .principles { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="hero">
+    <h1>stashkit</h1>
+    <p class="tagline">Agentic-first key-value store. Plain text API, agent-driven, single Go binary.</p>
+    <div class="badges">
+      <span class="badge go">Go</span>
+      <span class="badge">JSON Storage</span>
+      <span class="badge">Multi-Tenant</span>
+      <span class="badge">MCP</span>
+      <span class="badge license">MIT</span>
+    </div>
+    <div class="cta">
+      <a class="primary" href="https://github.com/relentlessworks/stashkit">View on GitHub</a>
+      <a class="secondary" href="https://github.com/relentlessworks/stashkit/releases">Download</a>
+    </div>
+  </div>
+
+  <section>
+    <h2>Quick Start</h2>
+    <pre><code># Build and run
+make build && ./stashkit
+
+# Store a value
+curl -X POST http://localhost:7788/entries \
+  -H "Authorization: Bearer &lt;token&gt;" \
+  -d "key=api_key" -d "value=sk-12345"
+
+# Retrieve by key
+curl "http://localhost:7788/lookup?key=api_key" \
+  -H "Authorization: Bearer &lt;token&gt;"</code></pre>
+  </section>
+
+  <section>
+    <h2>Principles</h2>
+    <div class="principles">
+      <div class="principle">
+        <h3>Agent IS the Interface</h3>
+        <p>No UI, no SDK. The AI agent is the user. The API is the product.</p>
+      </div>
+      <div class="principle">
+        <h3>Plain Text by Default</h3>
+        <p>One labeled, grepable line per record. Token-cheap. JSON on demand.</p>
+      </div>
+      <div class="principle">
+        <h3>Instructive Errors</h3>
+        <p>Every 4xx includes a hint telling the agent what to do next.</p>
+      </div>
+      <div class="principle">
+        <h3>Self-Documenting</h3>
+        <p>GET /help returns a one-page operating manual the agent loads at runtime.</p>
+      </div>
+      <div class="principle">
+        <h3>Simple Auth</h3>
+        <p>OTP via email → long-lived bearer token. No complex OAuth.</p>
+      </div>
+      <div class="principle">
+        <h3>Single Binary</h3>
+        <p>Go + JSON files, CGO_ENABLED=0, zero external dependencies.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>API Reference</h2>
+    <table>
+      <thead>
+        <tr><th>Method</th><th>Path</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>POST</code></td><td><code>/auth/request</code></td><td>Request OTP</td></tr>
+        <tr><td><code>POST</code></td><td><code>/auth/verify</code></td><td>Verify OTP → token</td></tr>
+        <tr><td><code>GET</code></td><td><code>/workspaces</code></td><td>List workspaces</td></tr>
+        <tr><td><code>POST</code></td><td><code>/workspaces</code></td><td>Create workspace</td></tr>
+        <tr><td><code>POST</code></td><td><code>/entries</code></td><td>Store key-value (with optional TTL &amp; namespace)</td></tr>
+        <tr><td><code>GET</code></td><td><code>/entries</code></td><td>List entries (filter by namespace)</td></tr>
+        <tr><td><code>GET</code></td><td><code>/entries/&lt;handle&gt;</code></td><td>Get entry by handle</td></tr>
+        <tr><td><code>DELETE</code></td><td><code>/entries/&lt;handle&gt;</code></td><td>Delete entry by handle</td></tr>
+        <tr><td><code>GET</code></td><td><code>/lookup?key=</code></td><td>Get entry by key</td></tr>
+        <tr><td><code>DELETE</code></td><td><code>/lookup?key=</code></td><td>Delete entry by key</td></tr>
+        <tr><td><code>GET</code></td><td><code>/audit</code></td><td>Audit log</td></tr>
+        <tr><td><code>GET</code></td><td><code>/help</code></td><td>Operating manual</td></tr>
+        <tr><td><code>GET</code></td><td><code>/mcp</code></td><td>MCP endpoint</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Configuration</h2>
+    <table>
+      <thead>
+        <tr><th>Flag</th><th>Env Var</th><th>Default</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>-addr</code></td><td><code>STASHKIT_ADDR</code></td><td><code>:7788</code></td></tr>
+        <tr><td><code>-data</code></td><td><code>STASHKIT_DATA</code></td><td><code>./data</code></td></tr>
+        <tr><td><code>-secret</code></td><td><code>STASHKIT_SECRET</code></td><td>auto-generated</td></tr>
+        <tr><td><code>-smtp-host</code></td><td><code>STASHKIT_SMTP_HOST</code></td><td>(none)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>Build</h2>
+    <pre><code>make build    # CGO_ENABLED=0, static binary
+make test     # go test -race
+make vet      # go vet
+make run      # build + run</code></pre>
+  </section>
+
+  <div class="footer">
+    <p>stashkit &middot; <a href="https://github.com/relentlessworks">relentlessworks</a> &middot; MIT License</p>
+  </div>
+</div>
+</body>
+</html>
