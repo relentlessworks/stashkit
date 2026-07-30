@@ -1,6 +1,6 @@
 # Binaries
-stashkit
-stashkit_*
+/stashkit
+/stashkit_*
 *.exe
 
 # Data directory
